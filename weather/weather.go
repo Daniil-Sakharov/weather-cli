@@ -8,11 +8,6 @@ import (
 	"net/url"
 )
 
-//TESTS
-//Unit
-//Integration
-//e2e
-
 func GetWeather(geo geo.DataGeo, format int) string {
 	baseUrl, err := url.Parse("https://wttr.in/" + geo.City)
 	if err != nil {
@@ -24,14 +19,14 @@ func GetWeather(geo geo.DataGeo, format int) string {
 	baseUrl.RawQuery = params.Encode()
 	resp, err := http.Get(baseUrl.String())
 	if err != nil {
+		defer resp.Body.Close()
 		fmt.Println(err.Error())
 		return ""
 	}
-	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err.Error())
 		return ""
 	}
-	return string(body)
+	return fmt.Sprintf("Location: %s\nWeather: %s", geo.City, string(body))
 }

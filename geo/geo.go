@@ -26,7 +26,7 @@ func GetMyLocation(city string) (*DataGeo, error) {
 			City: city,
 		}, nil
 	}
-	resp, err := http.Get("https://ipapi.co/json/")
+	resp, err := http.Get("https://ipinfo.io/json")
 	if err != nil {
 		return nil, err
 	}
